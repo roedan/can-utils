@@ -48,7 +48,7 @@ static int verbose;
 static int sockfd;
 static int test_loops;
 static int exit_sig;
-static loopbackIncrement = 1;
+static int loopbackIncrement = 1;
 
 static void print_usage(char *prg)
 {
