@@ -48,6 +48,7 @@ static int verbose;
 static int sockfd;
 static int test_loops;
 static int exit_sig;
+static loopbackIncrement = 1;
 
 static void print_usage(char *prg)
 {
@@ -58,6 +59,7 @@ static void print_usage(char *prg)
 		"         -vv      (high verbosity)\n"
 		"         -g       (generate messages)\n"
 		"         -l COUNT (test loop count)\n"
+		"         -n       (do not increment frames before sending back\n)"
 		"\n"
 		"With the option '-g' CAN messages are generated and checked\n"
 		"on <can-interface>, otherwise all messages received on the\n"
@@ -215,9 +217,12 @@ static int can_echo_dut(void)
 			}
 			printf("\n");
 		}
-		frame.can_id++;
-		for (i = 0; i < frame.can_dlc; i++)
-			frame.data[i]++;
+		if (loopbackIncrement == 1)
+		{
+			frame.can_id++;
+			for (i = 0; i < frame.can_dlc; i++)
+				frame.data[i]++;
+		}
 		if (send_frame(&frame))
 			return -1;
 
@@ -320,7 +325,7 @@ int main(int argc, char *argv[])
 	signal(SIGHUP, signal_handler);
 	signal(SIGINT, signal_handler);
 
-	while ((opt = getopt(argc, argv, "gl:v")) != -1) {
+	while ((opt = getopt(argc, argv, "gl:vn")) != -1) {
 		switch (opt) {
 		case 'v':
 			verbose++;
@@ -333,6 +338,10 @@ int main(int argc, char *argv[])
 		case 'g':
 			echo_gen = 1;
 			break;
+
+		case 'n':
+			loopbackIncrement = 0;
+			break;	
 
 		default:
 			print_usage(basename(argv[0]));
