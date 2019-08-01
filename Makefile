@@ -95,7 +95,8 @@ PROGRAMS := \
 	cansniffer \
 	log2asc \
 	log2long \
-	slcanpty
+	slcanpty \
+	can_tester
 
 all: $(PROGRAMS)
 

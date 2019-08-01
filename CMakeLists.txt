@@ -12,6 +12,8 @@ if ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
   add_definitions(-D_GNU_SOURCE)
 endif()
 
+set(CMAKE_BUILD_TYPE Debug)
+
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wno-parentheses")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-strict-aliasing")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DSO_RXQ_OVFL=40")
